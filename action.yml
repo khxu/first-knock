@@ -1,0 +1,95 @@
+name: "first-knock"
+description: "Contributor context for new PRs. Surfaces account, engagement, commit, and activity data to help maintainers review contributions from new contributors."
+author: "Dan Velton"
+
+branding:
+  icon: "user-check"
+  color: "blue"
+
+inputs:
+  github-token:
+    description: "GitHub token for API access. Defaults to the automatic GITHUB_TOKEN."
+    required: false
+    default: ${{ github.token }}
+
+  mode:
+    description: >
+      Operating mode.
+      "context-card" (default): Analyze the PR author and post a context card.
+      "challenge-monitor": Monitor for challenge responses on issue_comment or schedule events.
+    required: false
+    default: "context-card"
+
+  enable-account:
+    description: "Enable account profile analysis."
+    required: false
+    default: "true"
+
+  enable-engagement:
+    description: "Enable prior repo engagement analysis."
+    required: false
+    default: "true"
+
+  enable-forensics:
+    description: "Enable commit metadata analysis."
+    required: false
+    default: "true"
+
+  enable-velocity:
+    description: "Enable cross-repo activity analysis."
+    required: false
+    default: "true"
+
+  enable-similarity:
+    description: "Enable PR description / issue body similarity analysis."
+    required: false
+    default: "true"
+
+  challenge-enabled:
+    description: "Post a follow-up question asking the contributor to describe their change."
+    required: false
+    default: "false"
+
+  challenge-prompt:
+    description: "Custom text for the challenge question."
+    required: false
+    default: "Thanks for your contribution! To help us review this, could you share what prompted this change and how you verified it works?"
+
+  challenge-auto-close-days:
+    description: "Automatically close PRs with no challenge response after this many days. Set to 0 to disable."
+    required: false
+    default: "0"
+
+  challenge-label-no-response:
+    description: "Label applied to PRs with a pending challenge. Removed when the contributor responds."
+    required: false
+    default: "needs-response"
+
+  skip-accounts:
+    description: "Comma-separated list of accounts to skip (in addition to built-in bot accounts like dependabot)."
+    required: false
+    default: ""
+
+  skip-org-members:
+    description: "Skip context cards for organization members."
+    required: false
+    default: "true"
+
+  custom-footer:
+    description: "Custom footer text for the context card. Replaces the default attribution."
+    required: false
+    default: ""
+
+outputs:
+  context-card-posted:
+    description: "Whether a context card was posted (true/false)."
+  is-first-interaction:
+    description: "Whether this is the contributor's first interaction with the repo."
+  account-age-days:
+    description: "Age of the contributor's GitHub account in days."
+  prs-last-7-days:
+    description: "Number of PRs the contributor has opened across all repos in the last 7 days."
+
+runs:
+  using: "node20"
+  main: "dist/index.js"

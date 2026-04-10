@@ -1,0 +1,46 @@
+# Full setup: context card, challenge question, and auto-close after 7 days
+# with no response.
+name: Contributor Context (Full)
+
+on:
+  pull_request:
+    types: [opened]
+  issue_comment:
+    types: [created]
+  schedule:
+    - cron: "0 9 * * *" # Daily at 9am UTC
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  context-card:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dvelton/first-knock@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          challenge-enabled: "true"
+          challenge-auto-close-days: "7"
+          skip-accounts: "my-internal-bot,staging-bot"
+
+  challenge-monitor:
+    if: github.event_name == 'issue_comment'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dvelton/first-knock@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          mode: challenge-monitor
+
+  stale-challenges:
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dvelton/first-knock@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          mode: challenge-monitor
+          challenge-auto-close-days: "7"

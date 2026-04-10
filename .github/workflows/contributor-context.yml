@@ -1,0 +1,41 @@
+# This workflow runs first-knock on PRs to this repo, so visitors can
+# open a PR and see the context card in action.
+#
+# Uses pull_request_target so the action has write permissions even on
+# fork PRs. This is safe because the action reads PR metadata and posts
+# comments -- it does not execute any code from the PR branch.
+name: "Demo: Contributor Context"
+
+on:
+  pull_request_target:
+    types: [opened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  context-card:
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          challenge-enabled: "true"
+          challenge-prompt: >
+            Thanks for trying out first-knock! Could you share what brought
+            you here and what you think of the context card above?
+
+  challenge-monitor:
+    if: github.event_name == 'issue_comment'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          mode: challenge-monitor

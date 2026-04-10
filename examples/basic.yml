@@ -1,0 +1,18 @@
+# Post a contributor context card on every PR from a new contributor.
+name: Contributor Context
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+  issues: write
+
+jobs:
+  context:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dvelton/first-knock@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
