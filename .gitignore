@@ -1,6 +1,5 @@
 node_modules/
 lib/
-dist/
 *.js.map
 .DS_Store
 coverage/
