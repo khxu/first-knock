@@ -100,6 +100,33 @@ function renderVelocityRow(v: VelocityAnalysis): string {
   return `| Recent activity | ${week} · ${month} |`;
 }
 
+function renderBucketEmoji(count: number, maxCount: number): string {
+  if (count === 0 || maxCount === 0) return "⚪";
+
+  const ratio = count / maxCount;
+  if (ratio >= 0.75) return "🟥";
+  if (ratio >= 0.5) return "🟧";
+  if (ratio >= 0.25) return "🟨";
+  return "🟩";
+}
+
+function renderOpenPrRow(v: VelocityAnalysis): string {
+  const counts = [
+    v.openPublicPrBuckets.last30Days,
+    v.openPublicPrBuckets.days31To90,
+    v.openPublicPrBuckets.days91To180,
+    v.openPublicPrBuckets.days181To365,
+  ];
+  const maxCount = Math.max(...counts);
+  const histogram = counts.map((count) => renderBucketEmoji(count, maxCount)).join("");
+  const bucketSummary = counts.join("/");
+  return (
+    `| Open PRs | ${pluralize(v.openPublicPrsLastYear, "open PR")} across ` +
+    `${pluralize(v.openPublicReposLastYear, "public repo")} ` +
+    `(past year, latest ${v.openPublicPrSampleSize}) · 30d→365d ${histogram} (${bucketSummary}) |`
+  );
+}
+
 function renderSimilarityRow(s: SimilarityAnalysis): string {
   if (s.referencedIssueNumber === null) {
     const descNote = s.prDescriptionWordCount === 0
@@ -146,6 +173,7 @@ export function renderContextCard(
 
   if (context.velocity) {
     lines.push(renderVelocityRow(context.velocity));
+    lines.push(renderOpenPrRow(context.velocity));
   }
 
   if (context.similarity) {

@@ -21,6 +21,7 @@ When a new contributor opens a PR, first-knock posts a comment like this:
 > | Repo history | First interaction with this repository |
 > | Commits | 3 commits (2 local, 1 via API) · avg author/committer gap: 45 minutes |
 > | Recent activity | 12 PRs across 8 repos (7d) · 45 PRs across 22 repos (30d) |
+> | Open PRs | 7 open PRs across 5 public repos (past year, latest 9) · 30d→365d 🟥🟧🟨⚪ (4/2/1/0) |
 > | PR description | references #42 · 85% word overlap with issue body · 30 unique words in description |
 
 The card presents facts. It does not score, flag, or make judgments about the contributor.
@@ -61,7 +62,7 @@ first-knock runs five independent analyzers, all enabled by default. Disable any
 
 **Commits** (`enable-forensics`): Number of commits in the PR, whether each was authored locally or through the GitHub web/API interface, the gap between author and committer timestamps, and whether commits are signed.
 
-**Recent activity** (`enable-velocity`): How many PRs the contributor has opened across all public repos in the last 7 and 30 days, and how many different repos those PRs targeted.
+**Recent activity** (`enable-velocity`): How many PRs the contributor has opened across all public repos in the last 7 and 30 days, plus up to the latest 50 open public PRs from the last year summarized with a time-bucket histogram.
 
 **PR description** (`enable-similarity`): Word count of the PR description, whether it references an issue, and if so, the word-level overlap between the PR description and the issue body.
 
