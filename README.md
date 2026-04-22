@@ -4,10 +4,6 @@ A GitHub Action that posts a contributor context card when someone new opens a p
 
 Maintainers spend time clicking through profiles, checking interaction history, and inspecting commits whenever an unfamiliar contributor opens a PR. first-knock does that legwork automatically and posts a summary directly on the PR, so the maintainer can focus on the code.
 
-## Try it
-
-Open a PR on this repo and see what happens.
-
 ## What the context card looks like
 
 When a new contributor opens a PR, first-knock posts a comment like this:
