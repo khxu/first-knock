@@ -190,7 +190,3 @@ first-knock uses the GitHub API to gather publicly available data about the PR a
 The context card is posted as a PR comment. A hidden HTML marker (`<!-- first-knock-context-card -->`) prevents duplicate cards if the workflow runs more than once.
 
 The challenge system uses HTML comment markers in the challenge comment body to track state, so no external storage is needed.
-
-## License
-
-MIT
