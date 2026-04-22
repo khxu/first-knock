@@ -40,6 +40,15 @@ function makeFullContext(): ContributorContext {
       prsLast30Days: 45,
       uniqueReposLast7Days: 8,
       uniqueReposLast30Days: 22,
+      openPublicPrsLastYear: 7,
+      openPublicReposLastYear: 5,
+      openPublicPrSampleSize: 9,
+      openPublicPrBuckets: {
+        last30Days: 4,
+        days31To90: 2,
+        days91To180: 1,
+        days181To365: 0,
+      },
     },
     similarity: {
       referencedIssueNumber: 42,
@@ -65,6 +74,8 @@ describe("renderContextCard", () => {
     expect(card).toContain("2 local");
     expect(card).toContain("1 via API");
     expect(card).toContain("12 PRs across 8 repos (7d)");
+    expect(card).toContain("7 open PRs across 5 public repos");
+    expect(card).toContain("30d→365d 🟥🟧🟨⚪ (4/2/1/0)");
     expect(card).toContain("#42");
     expect(card).toContain("85%");
     expect(card).toContain("first-knock");

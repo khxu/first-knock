@@ -44,6 +44,17 @@ export interface VelocityAnalysis {
   prsLast30Days: number;
   uniqueReposLast7Days: number;
   uniqueReposLast30Days: number;
+  openPublicPrsLastYear: number;
+  openPublicReposLastYear: number;
+  openPublicPrSampleSize: number;
+  openPublicPrBuckets: OpenPrBuckets;
+}
+
+export interface OpenPrBuckets {
+  last30Days: number;
+  days31To90: number;
+  days91To180: number;
+  days181To365: number;
 }
 
 export interface SimilarityAnalysis {
